@@ -7,10 +7,10 @@ from time import time
    
 fromaddr = "george.lou@nemoinfo.com"
 
-def mailpng(fname, toaddr = "mice2100@qq.com"):
+def mailpng(fname, toaddr = ["mice2100@qq.com"]):
     msg = MIMEMultipart() 
     msg['From'] = fromaddr 
-    msg['To'] = toaddr 
+    msg['To'] = ", ".join(toaddr)
     
     msg['Subject'] = "screen shot"
     

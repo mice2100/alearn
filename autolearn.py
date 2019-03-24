@@ -108,7 +108,7 @@ def DailyLearn():
 	Vido()
 
 	ADB.screencap('screenshot.png')
-	mailpng('screenshot.png')
+	mailpng('screenshot.png', ['mice2100@qq.com', 'opticmcu@gmail.com'])
 	
 	ADB.lock()
 	
