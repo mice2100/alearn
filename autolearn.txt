@@ -1,0 +1,129 @@
+Randomize
+
+Sub UIDelay()
+    Delay Int(Rnd()*1000+2000)
+End Sub
+
+Sub LDelay()
+	Delay Int(Rnd()*2000+120000)
+End Sub
+
+Sub VDelay()
+	Delay Int(Rnd()*2000+300000)
+End Sub
+
+Sub LOp()
+	Dim x, y
+	x = Int(Rnd()*800)
+	y = Int(Rnd()*400+1000)
+	Swipe x, y, x, y-300
+End Sub
+
+Function subLearn(x, y)
+	Tap x, y
+	Call LDelay()
+	Call LOp()
+	Call LDelay()
+	Tap 104, 183
+	Call UIDelay()	
+End Function
+
+Sub Learn()
+	//switch to 'learn'
+	Tap 540, 1730
+	Call UIDelay()
+	
+	//switch to headline
+	Tap 260, 280
+	Call UIDelay()
+	
+	subLearn(300, 500)
+	subLearn(300, 900)
+	subLearn(300, 1300)
+	
+	//switch to bullshit
+	Tap 450, 280
+	Call UIDelay()
+	
+	subLearn(300, 650)
+	subLearn(300, 1000)
+	subLearn(300, 1500)
+
+End Sub
+
+
+Sub Vido()
+	//switch to 'video'
+	Tap 800, 1730
+	Call UIDelay()
+	
+	//switch to 1st
+	Tap 160, 280
+	Call UIDelay()
+	
+	Tap 300, 500
+	Call VDelay()
+	
+	//Switch short video
+	Tap 400, 280
+	Call UIDelay() 
+	
+	//switch learn channel
+	Tap 180, 430
+	Call UIDelay() 
+	Tap 300, 700
+	Call VDelay()
+
+	//switch 2 channel
+	Tap 480, 430
+	Call UIDelay() 
+	Tap 300, 700
+	Call VDelay() 
+	
+	//switch 3 channel
+	Tap 800, 430
+	Call UIDelay() 
+	
+	Tap 300, 700
+	Call VDelay()	
+
+End Sub
+
+Sub DailyLearn()
+
+	If Device.IsLock() Then 
+		Device.UnLock()
+	End If
+	
+	KeyPress "Home"
+	Call UIDelay()
+	KeyPress "Home"
+	Call UIDelay()
+	
+	
+	Swipe 700, 100, 300, 100
+	Call UIDelay()
+	
+	//launch app
+	Tap 400, 500
+	Delay 5000
+	
+	Call Learn()
+	Call Vido()
+	
+	Device.Lock()
+	
+End Sub
+
+Do While True
+	Dim hh
+	hh = DateTime.Hour()
+	TracePrint hh
+	If hh = 20 Then 
+		Call DailyLearn()
+	End If
+
+	Delay 30*60000
+    //Exit Do
+    //ÍË³öÑ­»·
+Loop
