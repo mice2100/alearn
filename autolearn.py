@@ -2,115 +2,87 @@ from adbcmd import adbcmd
 from random import random as rnd
 import time
 from mailpng import mailpng
+from autogui import locateAll
+from PIL import Image
 
 ADB = adbcmd('F8UDU15519010985')
 
 
 def UIDelay():
-    time.sleep(2+rnd())
+    time.sleep(4+rnd())
 
-def LDelay():
-    time.sleep(60+rnd())
+def LDelay(isVideo):
+	if isVideo:
+	    return 180+rnd()
+	else:
+		return 120+rnd()
 
-def VDelay():
-    time.sleep(300+60*rnd())
-
-def LOp():
-	x = int(rnd()*800)
-	y = int(rnd()*400+1000)
-	ADB.swipe((x, y, x, y-700))
-
-def subLearn(x, y):
+def subLearn(x, y, duration):
 	ADB.short_tap((x, y))
-	for i in range(4):
-		LDelay()
-		LOp()
+	time.sleep(duration)
 	ADB.key("KEYCODE_BACK")
 	UIDelay()	
+
+def findAndLearn(tms, duration):
+	i = 0
+	imgYear = Image.open('year.png')
+	while i<tms:
+		imgScreen = ADB.screencapImg()
+		# imgScreen.save('temp.png')
+		for x, y, w, h in locateAll(imgYear, imgScreen):
+			subLearn(x, y+10, duration)
+			i+=1
+		if i<tms:
+			ADB.swipe((500, 1500, 500, 500), 1000)
+			UIDelay()
 
 def Learn():
 	# switch to 'learn'
 	ADB.short_tap((540, 1730))
 	UIDelay()
-	
-	# //switch to headline
-	ADB.short_tap((260, 280))
+	# //switch to recommend
+	ADB.short_tap((120, 280))
 	UIDelay()
 	
-	subLearn(300, 500)
-	subLearn(300, 900)
-	subLearn(300, 1300)
-	
-	# //switch to bullshit
-	ADB.short_tap((450, 280))
-	UIDelay()
-	
-	subLearn(300, 650)
-	subLearn(300, 1000)
-	subLearn(300, 1500)
+	findAndLearn(6, LDelay(False))
 
 def Vido():
 	# //switch to 'video'
 	ADB.short_tap((800, 1730))
 	UIDelay()
-	
 	# //switch to 1st
 	ADB.short_tap((160, 280))
 	UIDelay()
-	ADB.short_tap((300, 500))
-	VDelay()
 	
-	# //Switch short video
-	ADB.short_tap((400, 280))
-	UIDelay() 
-	
-	# //switch learn channel
-	ADB.short_tap((180, 430))
-	UIDelay() 
-	ADB.short_tap((300, 700))
-	VDelay()
-
-	# //switch 2 channel
-	ADB.short_tap((480, 430))
-	UIDelay() 
-	ADB.short_tap((300, 700))
-	VDelay() 
-	
-	# //switch 3 channel
-	ADB.short_tap((800, 430))
-	UIDelay() 
-	ADB.short_tap((300, 700))
-	VDelay()
+	findAndLearn(3, LDelay(True))
 
 	# //Switch lianbo
 	ADB.short_tap((600, 280))
 	UIDelay()
-	ADB.short_tap((300, 500))
-	VDelay()
+	ADB.short_tap((600, 280))
+	UIDelay()
+	findAndLearn(3, LDelay(True))
 
 def DailyLearn():
-	time.sleep(1200*rnd())
+	time.sleep(600*rnd())
 	ADB.unlock()
-
-	ADB.key("KEYCODE_HOME")
-	UIDelay()
-	ADB.key("KEYCODE_HOME")
-	UIDelay()
-	
-	ADB.swipe(( 700, 100, 300, 100))
-	UIDelay()
 	
 	# //launch app
-	ADB.short_tap((400, 500))
-	time.sleep(8)
+	ADB.startApp('cn.xuexi.android/com.alibaba.android.rimet.biz.SplashActivity')
+	time.sleep(15)
 	
 	Learn()
 	Vido()
 
+	ADB.short_tap((427, 146))
+	UIDelay()
 	ADB.screencap('screenshot.png')
-	mailpng('screenshot.png', ['mice2100@qq.com', 'opticmcu@gmail.com'])
+	mailpng('screenshot.png', ['mice2100@163.com', 'opticmcu@gmail.com'])
+
+	ADB.key("KEYCODE_HOME")
 	
 	ADB.lock()
 	
 if __name__ == "__main__":
     DailyLearn()
+	# ADB.screencap('screenshot.png')
