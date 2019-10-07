@@ -52,7 +52,7 @@ def Learn():
 
 def Vido():
 	# //switch to 'video'
-	ADB.short_tap((800, 1730))
+	ADB.short_tap((760, 1730))
 	UIDelay()
 	# //switch to 1st
 	ADB.short_tap((160, 280))
@@ -78,7 +78,7 @@ def DailyLearn():
 	Learn()
 	Vido()
 
-	ADB.short_tap((427, 146))
+	ADB.short_tap((780, 146))
 	UIDelay()
 	ADB.screencap('screenshot.png')
 	mailpng('screenshot.png', ['mice2100@163.com', 'opticmcu@gmail.com'])
