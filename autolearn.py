@@ -68,6 +68,8 @@ def Vido():
 	findAndLearn(3, LDelay(True))
 
 def DailyLearn():
+	ADB.enable_charger(True)
+
 	time.sleep(60*rnd())
 	ADB.unlock()
 	
@@ -89,6 +91,7 @@ def DailyLearn():
 	UIDelay()
 	
 	ADB.lock()
+	ADB.enable_charger(False)
 	
 if __name__ == "__main__":
     DailyLearn()

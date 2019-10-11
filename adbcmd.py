@@ -126,3 +126,10 @@ class adbcmd:
         result = _sysrun(cmd)
         if result.returncode != 0:
             raise ADBError(result.stderr.decode().strip())
+
+    def enable_charger(self, enable):
+        cmd = "adb -s {} exec-out su -c 'echo {} > /sys/devices/huawei_charger.32/enable_charger'".format(self.device_serial, int(enable))
+        # print(cmd)
+        result = _sysrun(cmd, shell=True)
+        if result.returncode != 0:
+            raise ADBError(result.stderr.decode().strip())
