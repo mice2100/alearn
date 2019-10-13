@@ -133,3 +133,10 @@ class adbcmd:
         result = _sysrun(cmd, shell=True)
         if result.returncode != 0:
             raise ADBError(result.stderr.decode().strip())
+
+    def get_batterylevel(self):
+        """获取电池电量百分比"""
+        cmd = "adb -s {} exec-out dumpsys battery".format(self.device_serial).split()
+        result = _sysrun(cmd)
+        level = result.stdout.decode().split('\n')[7].split("level: ")[-1]
+        return int(level)

@@ -68,7 +68,8 @@ def Vido():
 	findAndLearn(3, LDelay(True))
 
 def DailyLearn():
-	ADB.enable_charger(True)
+	if ADB.get_batterylevel()<50:
+		ADB.enable_charger(True)
 
 	time.sleep(60*rnd())
 	ADB.unlock()
