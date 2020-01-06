@@ -90,5 +90,5 @@ def _kmp(needle, haystack): # Knuth-Morris-Pratt search algorithm implementation
             yield startPos
 
 if __name__ == "__main__":
-    for x, y, w, h in locateAll('year.png', 'screenshot.png', False):
+    for x, y, w, h in locateAll('unread.png', 's04.png', False):
         print(x, y, w, h)

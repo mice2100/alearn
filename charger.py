@@ -5,6 +5,5 @@ if __name__ == "__main__":
     level = adb.get_batterylevel()
     if level<20:
         adb.enable_charger(True)
-
     if level>90:
         adb.enable_charger(False)

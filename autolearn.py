@@ -23,6 +23,20 @@ def subLearn(x, y, duration):
 	ADB.key("KEYCODE_BACK")
 	UIDelay()	
 
+def title_unread(imgScreen, x, y, w, h):
+	tx = 50
+	ty = y-100
+	tw = 500
+	th = 70
+
+	imgTitle = imgScreen.crop((tx, ty, tx+tw, ty+th))
+	imgUnread = Image.open('unread.png')
+
+	for a,b,c,d in locateAll(imgUnread, imgTitle):
+		return True
+
+	return False
+
 def findAndLearn(tms, duration):
 	i = 0
 	imgYear = Image.open('year.png')
@@ -31,9 +45,10 @@ def findAndLearn(tms, duration):
 		imgScreen = ADB.screencapImg()
 		# imgScreen.save('temp.png')
 		for x, y, w, h in locateAll(imgYear, imgScreen):
-			subLearn(x, y+10, duration)
-			i+=1
-		if i==0 and swipe>1: ## can't find it within 2 pages
+			if title_unread(imgScreen, x, y, w, h):
+				subLearn(x, y+10, duration)
+				i+=1
+		if i==0 and swipe>3:
 			return
 		if i<tms:
 			ADB.swipe((500, 1500, 500, 500), 1000)
@@ -55,17 +70,15 @@ def Vido():
 	ADB.short_tap((760, 1730))
 	UIDelay()
 	# //switch to 1st
-	ADB.short_tap((160, 280))
-	UIDelay()
+	# ADB.short_tap((160, 280))
+	# UIDelay()
 	
-	findAndLearn(3, LDelay(True))
+	# findAndLearn(3, LDelay(True))
 
 	# //Switch lianbo
 	ADB.short_tap((600, 280))
 	UIDelay()
-	ADB.short_tap((600, 280))
-	UIDelay()
-	findAndLearn(3, LDelay(True))
+	findAndLearn(6, LDelay(True))
 
 def DailyLearn():
 	time.sleep(60*rnd())
@@ -73,12 +86,13 @@ def DailyLearn():
 	
 	# //launch app
 	ADB.startApp('cn.xuexi.android/com.alibaba.android.rimet.biz.SplashActivity')
-	time.sleep(30)
+	time.sleep(50)
 	
 	Learn()
 	Vido()
 
 	ADB.short_tap((780, 146))
+	UIDelay()
 	UIDelay()
 	ADB.screencap('screenshot.png')
 	mailpng('screenshot.png', ['mice2100@163.com', 'opticmcu@gmail.com'])
